@@ -405,6 +405,14 @@ class ResultManager:
         try:
             filepath = self.files["summary"]
 
+            # Unique models
+            unique_models = set()
+            for data in self.models_data.values():
+                unique_models.update(data.get("models", []))
+
+            total_models = len(unique_models)
+            del unique_models
+
             # Prepare summary data
             summary = {
                 "provider": self.name,
@@ -412,7 +420,7 @@ class ResultManager:
                 "models": self.models_data,
                 "stats": {
                     "total_keys": len(self.models_data),
-                    "total_models": sum(len(data["models"]) for data in self.models_data.values()),
+                    "total_models": total_models,
                 },
             }
 
